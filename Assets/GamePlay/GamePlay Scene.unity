@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 960915705}
   - component: {fileID: 960915704}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +512,7 @@ Transform:
   m_GameObject: {fileID: 1143803290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.1038296, y: 1.779, z: 0}
+  m_LocalPosition: {x: -3, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -532,16 +532,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050e3feee8125904da46104ebb5c814f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 700
+  m_JumpForce: 800
   m_CrouchSpeed: 0.4
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 128
   m_GroundCheck: {fileID: 1360396246}
   m_CeilingCheck: {fileID: 1787675329}
-  m_CrouchDisableCollider: {fileID: 0}
+  m_CrouchDisableCollider: {fileID: 1143803295}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -668,6 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1143803293}
+  runSpeed: 40
 --- !u!1 &1176310500
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +765,7 @@ GameObject:
   - component: {fileID: 1268961947}
   - component: {fileID: 1268961946}
   - component: {fileID: 1268961948}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1387,7 @@ Transform:
   m_GameObject: {fileID: 1360396245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: -1.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1501,7 +1502,7 @@ Transform:
   m_GameObject: {fileID: 1787675328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
