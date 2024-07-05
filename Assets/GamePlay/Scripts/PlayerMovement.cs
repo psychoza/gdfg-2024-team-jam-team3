@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             m_jump = true;
-            Debug.Log("Jump");
         }
 
         // check if 'crouch' button is pressed
