@@ -604,6 +604,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 1360396246}
   m_CeilingCheck: {fileID: 1787675329}
   m_CrouchDisableCollider: {fileID: 1143803295}
+  m_CoyoteTime: 0.5
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
