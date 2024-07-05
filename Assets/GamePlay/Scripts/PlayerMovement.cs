@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float m_horizontalMove = 0f;
     private bool m_jump = false;
+    private bool m_isHoldingJump = false;
     private bool m_crouch = false;
 
     void Update()
@@ -30,12 +31,14 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetButtonUp("Crouch")) {
             m_crouch = false;
         }
+
+        m_isHoldingJump = Input.GetButton("Jump");
     }
 
     private void FixedUpdate()
     {
         // Move the character
-        controller.Move(m_horizontalMove * Time.fixedDeltaTime, m_crouch, m_jump);
+        controller.Move(m_horizontalMove * Time.fixedDeltaTime, m_crouch, m_jump, m_isHoldingJump);
         // reset the jump variable to avoid multiple jumps
         m_jump = false;
     }

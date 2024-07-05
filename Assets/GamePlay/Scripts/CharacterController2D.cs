@@ -18,10 +18,12 @@ public class CharacterController2D : MonoBehaviour
   [SerializeField] private Transform m_CeilingCheck;              // A position marking where to check for ceilings
   [SerializeField] private Collider2D m_CrouchDisableCollider;        // A collider that will be disabled when crouching
   [SerializeField] private float m_CoyoteTime = 0.5f;        // Extra time to jump
+  [SerializeField] private float m_FallAccelerationWhenNotHoldingJumpKey = 10f;        // Extra time to jump
 
   const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-  private bool m_Grounded;            // Whether or not the player is grounded.
   const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
+
+  private bool m_Grounded;            // Whether or not the player is grounded.
   private Rigidbody2D m_Rigidbody2D;
   private bool m_FacingRight = true;  // For determining which way the player is currently facing.
   private Vector3 m_Velocity = Vector3.zero;
@@ -36,7 +38,11 @@ public class CharacterController2D : MonoBehaviour
 
   private bool m_wasCrouching = false;
 
-  private bool CanJump => this.m_Grounded || this.m_CoyoteTimeCounter > 0f;
+  private bool m_FallingFaster = false;
+
+  private bool CoyoteTimeHasEnded => m_CoyoteTimeCounter <= 0f;
+
+  private bool CanJump => m_Grounded || m_CoyoteTimeCounter > 0f;
 
   private void Awake()
   {
@@ -62,11 +68,10 @@ public class CharacterController2D : MonoBehaviour
     {
       if (colliders[i].gameObject != gameObject)
       {
-        m_Grounded = true;
-        if (!wasGrounded)
-        {
-          OnLandEvent.Invoke();
-        }
+        Land();
+
+        //  Break for optimization
+        break;
       }
     }
 
@@ -74,7 +79,7 @@ public class CharacterController2D : MonoBehaviour
     this.ManageCoyoteTime(wasGrounded, Time.fixedDeltaTime);
   }
 
-  public void Move(float move, bool crouch, bool jump)
+  public void Move(float move, bool crouch, bool jump, bool isHoldingJump)
   {
     // If crouching, check to see if the character can stand up
     if (!crouch)
@@ -120,6 +125,13 @@ public class CharacterController2D : MonoBehaviour
 
       // Move the character by finding the target velocity
       Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+
+      if (m_FallingFaster)
+      {
+        //  Adds extra gravity force
+        targetVelocity += Physics.gravity * Time.fixedDeltaTime * m_FallAccelerationWhenNotHoldingJumpKey;
+      }
+
       // And then smoothing it out and applying it to the character
       m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
@@ -136,12 +148,35 @@ public class CharacterController2D : MonoBehaviour
         Flip();
       }
     }
+
     // If the player should jump...
     if (this.CanJump && jump)
     {
       // Add a vertical force to the player.
       m_Grounded = false;
       m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+    }
+
+    //  Increases the falling speed when is not pressing jump
+    if (!m_Grounded)
+    {
+      if (this.CoyoteTimeHasEnded && !isHoldingJump)
+      {
+        m_FallingFaster = true;
+      }
+    }
+  }
+
+  private void Land()
+  {
+    bool wasGrounded = m_Grounded;
+
+    m_Grounded = true;
+    m_FallingFaster = false;
+
+    if (!wasGrounded)
+    {
+      OnLandEvent.Invoke();
     }
   }
 
