@@ -74,7 +74,7 @@ namespace Preferences.Scripts
         {
             _tabViews = new Dictionary<PreferenceTab, (GameObject, Button)>
             {
-                { PreferenceTab.Display, (View: displayView, Button: displayTabButton) },
+                { PreferenceTab.Display, (displayView, displayTabButton) },
                 { PreferenceTab.Audio, (audioView, audioTabButton) },
                 { PreferenceTab.Controls, (controlsView, controlsTabButton) },
                 { PreferenceTab.Game, (gameView, gameTabButton) }
