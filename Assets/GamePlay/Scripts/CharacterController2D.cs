@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,6 +25,7 @@ public class CharacterController2D : MonoBehaviour
   const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 
   private bool m_Grounded;            // Whether or not the player is grounded.
+  private int m_JumpCounter = 0;
   private Rigidbody2D m_Rigidbody2D;
   private bool m_FacingRight = true;  // For determining which way the player is currently facing.
   private Vector3 m_Velocity = Vector3.zero;
@@ -35,6 +37,10 @@ public class CharacterController2D : MonoBehaviour
   public UnityEvent OnLandEvent;
 
   public UnityEvent<bool> OnCrouchEvent;
+
+  public bool doubleJumpPowerUp = true;
+
+  public bool canDownJump = true;
 
   private bool m_wasCrouching = false;
 
@@ -135,36 +141,85 @@ public class CharacterController2D : MonoBehaviour
       // And then smoothing it out and applying it to the character
       m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-      // If the input is moving the player right and the player is facing left...
+      // Player facing
       if (move > 0 && !m_FacingRight)
       {
-        // ... flip the player.
         Flip();
       }
-      // Otherwise if the input is moving the player left and the player is facing right...
       else if (move < 0 && m_FacingRight)
       {
-        // ... flip the player.
         Flip();
       }
     }
 
     // If the player should jump...
-    if (this.CanJump && jump)
+    if (jump)
     {
-      // Add a vertical force to the player.
-      m_Grounded = false;
-      m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+      if (CanJump)
+      {
+        if (crouch)
+        {
+          ClimbDown();
+        }
+        else
+        {
+          Jump();
+        }
+      }
+      else if (!m_Grounded && doubleJumpPowerUp && m_JumpCounter == 1)
+      {
+        Jump();
+      }
     }
+
 
     //  Increases the falling speed when is not pressing jump
     if (!m_Grounded)
     {
-      if (this.CoyoteTimeHasEnded && !isHoldingJump)
+      if (CoyoteTimeHasEnded && !isHoldingJump)
       {
         m_FallingFaster = true;
       }
     }
+  }
+
+  private void ClimbDown()
+  {
+    m_Grounded = false;
+    m_FallingFaster = true;
+
+    foreach (var component in GetComponents<Collider2D>())
+    {
+      component.enabled = false;
+    }
+
+    StartCoroutine(ClimpDownEnd());
+  }
+
+  private IEnumerator ClimpDownEnd()
+  {
+    yield return new WaitForSeconds(0.5f);
+
+    foreach (var component in GetComponents<Collider2D>())
+    {
+      component.enabled = true;
+    }
+  }
+
+  private void Jump()
+  {
+    m_Grounded = false;
+
+    float jumpForceMultiplier = 1f;
+
+    if (m_JumpCounter >= 1)
+    {
+      m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
+    }
+
+    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce) * jumpForceMultiplier);
+    m_JumpCounter++;
+    m_FallingFaster = false;
   }
 
   private void Land()
@@ -172,6 +227,7 @@ public class CharacterController2D : MonoBehaviour
     bool wasGrounded = m_Grounded;
 
     m_Grounded = true;
+    m_JumpCounter = 0;
     m_FallingFaster = false;
 
     if (!wasGrounded)

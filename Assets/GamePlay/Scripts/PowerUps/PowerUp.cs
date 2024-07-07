@@ -18,7 +18,12 @@ namespace GamePlay.Scripts.PowerUps
         [SerializeField] [InspectorLabel("Y Offset")] private float yPickupOffset = 0.25f;
         
         private LTDescr idleTween;
-        private void Start()
+
+        /// <summary>
+        /// Used OnEnable instead of Start, because when the game is reloaded after a 
+        /// compilation, idleTween value turns to null.
+        /// </summary>
+        private void OnEnable()
         {
             idleTween = LeanTween.moveY(gameObject,transform.position.y + yOffset, speed)
                 .setEase(LeanTweenType.easeInBack)
@@ -28,12 +33,17 @@ namespace GamePlay.Scripts.PowerUps
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+            if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+              return;
 
             goCollider.enabled = false;
+
             // play sound?
+
             // fire off particles?
+
             LeanTween.cancel(idleTween.id);
+
             LeanTween.moveY(gameObject, transform.position.y + yPickupOffset, delay)
                 .setEase(LeanTweenType.easeOutExpo);
             LeanTween.delayedCall(gameObject, delay, () => gameObject.SetActive(false));
