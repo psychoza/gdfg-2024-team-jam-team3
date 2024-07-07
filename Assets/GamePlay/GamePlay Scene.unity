@@ -502,6 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d873bc26fa50048a9b533f61a7e6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restartGameEnabled: 1
 --- !u!4 &713012486
 Transform:
   m_ObjectHideFlags: 0
@@ -926,6 +927,8 @@ MonoBehaviour:
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+  doubleJumpPowerUp: 1
+  canDownJump: 1
 --- !u!50 &1143803294
 Rigidbody2D:
   serializedVersion: 4
