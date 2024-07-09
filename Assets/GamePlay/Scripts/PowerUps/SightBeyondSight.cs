@@ -6,7 +6,7 @@ namespace GamePlay.Scripts.PowerUps
     {
         protected override void AcquirePowerUp(GameObject player)
         {
-            Debug.Log($"{player.name} acquired Sight Beyond Sight.");
+            GameManager.Instance.ToggleSightBeyondSight();
         }
     }
 }
