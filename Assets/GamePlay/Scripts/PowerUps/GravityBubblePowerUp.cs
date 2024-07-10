@@ -10,7 +10,6 @@ namespace GamePlay.Scripts.PowerUps
         protected override void AcquirePowerUp(GameObject player)
         {
             GarvityBubble garvityBubble = player.GetComponent<GarvityBubble>();
-            Debug.Log("Gravity Bubble PowerUp Acquired");
             if (garvityBubble) {
                 garvityBubble.ActiveBubble();
             }

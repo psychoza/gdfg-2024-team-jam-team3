@@ -1484,7 +1484,7 @@ MonoBehaviour:
   affectedLayers:
     serializedVersion: 2
     m_Bits: 64
-  bubbleDuration: 5
+  bubbleDuration: 100
 --- !u!1 &1176310500
 GameObject:
   m_ObjectHideFlags: 0
