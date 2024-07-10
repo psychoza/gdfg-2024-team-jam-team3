@@ -23,7 +23,9 @@ public abstract class EnemyMovement : MonoBehaviour
 
     public virtual void Update()
     {
-        Move();
+        if (isGrounded) {
+            Move();
+        }
 
         // Check if the enemy needs to be flipped based on movement direction
         if (movementDirection.x > 0 && !m_FacingRight)
@@ -42,7 +44,7 @@ public abstract class EnemyMovement : MonoBehaviour
         CheckGrounded();
 
         // Change direction if there is no ground ahead
-        if (!IsGroundAhead())
+        if (!IsGroundAhead() && isGrounded)
         {
             ChangeDirection();
         }
