@@ -23,4 +23,17 @@ public class Bookworm : EnemyStats
     {
         movement.SetSpeed(moveSpeed);
     }
+
+    protected override void Collide(Collision2D other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+        
+        Debug.Log($"{gameObject.name} says 'Ouch, I got jumped on'");
+        base.Collide(other);
+
+        currentHP -= 50;
+        if(currentHP <= 0)
+            Destroy(gameObject);
+
+    }
 }
