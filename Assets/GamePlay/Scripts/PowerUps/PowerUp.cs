@@ -1,23 +1,37 @@
-﻿using Unity.VisualScripting;
+﻿using System;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace GamePlay.Scripts.PowerUps
 {
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Animator))]
     public abstract class PowerUp : MonoBehaviour
     {
         [SerializeField] private Collider2D goCollider;
-        
-        [Header("LeanTween Idle Animation Values")]
+
+        [Header("Animation Controller Values")] 
+        [SerializeField] private int powerUpKey = 0;
+
+        [SerializeField] private Animator animator;
+
+        [Header("LeanTween Idle Animation Values")] 
         [SerializeField] private float speed = 0.75f;
         [SerializeField] private float overshoot = 0.75f;
         [SerializeField] [InspectorLabel("Y Offset")] private float yOffset = 0.125f;
 
-        [Header("LeanTween Pickup Animation Values")]
+        [Header("LeanTween Pickup Animation Values")] 
         [SerializeField] private float delay = 0.25f;
+
         [SerializeField] [InspectorLabel("Y Offset")] private float yPickupOffset = 0.25f;
-        
+
         private LTDescr idleTween;
+
+        private void OnValidate()
+        {
+            animator = gameObject.GetComponent<Animator>();
+        }
 
         /// <summary>
         /// Used OnEnable instead of Start, because when the game is reloaded after a 
@@ -25,7 +39,8 @@ namespace GamePlay.Scripts.PowerUps
         /// </summary>
         private void OnEnable()
         {
-            idleTween = LeanTween.moveY(gameObject,transform.position.y + yOffset, speed)
+            animator.SetInteger("PowerUpKey", powerUpKey);
+            idleTween = LeanTween.moveY(gameObject, transform.position.y + yOffset, speed)
                 .setEase(LeanTweenType.easeInBack)
                 .setOvershoot(overshoot)
                 .setLoopPingPong();
@@ -34,7 +49,7 @@ namespace GamePlay.Scripts.PowerUps
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
-              return;
+                return;
 
             goCollider.enabled = false;
 
@@ -52,7 +67,6 @@ namespace GamePlay.Scripts.PowerUps
 
         protected virtual void AcquirePowerUp(GameObject player)
         {
-            
-        } 
+        }
     }
 }
