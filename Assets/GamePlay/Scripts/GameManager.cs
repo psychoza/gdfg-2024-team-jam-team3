@@ -35,12 +35,9 @@ namespace GamePlay.Scripts
             SceneManager.LoadScene(scene.name);
         }
 
-        public static void LoadNextScene(int sceneIndex)
+        public static void LoadNextScene(string sceneName)
         {
-            // TODO: make it load next scene until game is won
-            var scene = SceneManager.GetSceneAt(sceneIndex);
-            // Could be null if wired wrong.
-            SceneManager.LoadScene(scene.name);
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

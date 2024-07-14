@@ -32,12 +32,12 @@ public abstract class EnemyStats : MonoBehaviour
     {
         if (other.otherCollider == bodyCollider)
         {
+            // TODO: Hurt player?
             Debug.Log($"{gameObject.name} hit {other.gameObject.name}");
         }
         
         if (other.otherCollider == headCollider)
         {
-            Debug.Log($"{other.gameObject.name} jumped on {gameObject.name}");
             Collide(other);
         }
     }
