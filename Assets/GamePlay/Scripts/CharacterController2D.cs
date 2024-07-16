@@ -17,7 +17,7 @@ public class CharacterController2D : MonoBehaviour
   [SerializeField] private LayerMask m_WhatIsGround;              // A mask determining what is ground to the character
   [SerializeField] private Transform m_GroundCheck;             // A position marking where to check if the player is grounded.
   [SerializeField] private Transform m_CeilingCheck;              // A position marking where to check for ceilings
-  [SerializeField] private Collider2D m_CrouchDisableCollider;        // A collider that will be disabled when crouching
+  [SerializeField] private Transform m_CrouchDisableCollider;        // A collider that will be disabled when crouching
   [SerializeField] private float m_CoyoteTime = 0.5f;        // Extra time to jump
   [SerializeField] private float m_FallAccelerationWhenNotHoldingJumpKey = 10f;        // Extra time to jump
 
@@ -114,13 +114,13 @@ public class CharacterController2D : MonoBehaviour
 
         // Disable one of the colliders when crouching
         if (m_CrouchDisableCollider != null)
-          m_CrouchDisableCollider.enabled = false;
+          m_CrouchDisableCollider.gameObject.SetActive(false);
       }
       else
       {
         // Enable the collider when not crouching
         if (m_CrouchDisableCollider != null)
-          m_CrouchDisableCollider.enabled = true;
+          m_CrouchDisableCollider.gameObject.SetActive(true);
 
         if (m_wasCrouching)
         {
@@ -188,7 +188,7 @@ public class CharacterController2D : MonoBehaviour
     m_Grounded = false;
     m_FallingFaster = true;
 
-    foreach (var component in GetComponents<Collider2D>())
+    foreach (var component in GetComponentsInChildren<Collider2D>())
     {
       component.enabled = false;
     }
@@ -200,7 +200,7 @@ public class CharacterController2D : MonoBehaviour
   {
     yield return new WaitForSeconds(0.5f);
 
-    foreach (var component in GetComponents<Collider2D>())
+    foreach (var component in GetComponentsInChildren<Collider2D>())
     {
       component.enabled = true;
     }
