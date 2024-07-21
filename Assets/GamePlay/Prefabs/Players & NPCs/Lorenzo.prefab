@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 496065924949091771}
   - component: {fileID: 5512090515307841341}
   - component: {fileID: 1964835521466562641}
+  - component: {fileID: 2475500508933112006}
   m_Layer: 3
   m_Name: Lorenzo
   m_TagString: Untagged
@@ -112,7 +113,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1025790649661875116, guid: 6f28d5bb81db84b45aa2544d676d6077, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef8fb277740ec5e4ab64537bcbebe336, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -214,6 +215,27 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   bubbleDuration: 10
+--- !u!95 &2475500508933112006
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431062191978966557}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2cdccaf46983663468095d964c59fc2c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3755378269000658970
 GameObject:
   m_ObjectHideFlags: 0
